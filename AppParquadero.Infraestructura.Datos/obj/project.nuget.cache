@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GI7GNTHxK0Aiyl/vuZfOiIvVtkJVYkarT6fCsOxTZv5oBUsq3tG1yMmj/l/k/6yBRsYA/fWOWmh4iDpztBZctA==",
+  "dgSpecHash": "iDuSQKiM1wiIZF9K4J5xalu/xgj/868m7i5w/F/zzq+/uI4M18BxZikx8FK94JHvc/YmoP7kDWz0IL4KmbIk+Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\VIcto\\OneDrive\\Documentos\\Programacion Web\\VisualComunity\\AppParquadero.Infraestructura.Datos\\AppParquadero.Infraestructura.Datos.csproj",
+  "projectFilePath": "C:\\Users\\VIcto\\Documents\\Proyectos web\\Devparqueadero\\AppParquadero.Infraestructura.Datos\\AppParqueadero.Infraestructura.Datos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VIcto\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\VIcto\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",

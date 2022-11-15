@@ -11,7 +11,7 @@ using AppParqueadero.Dominio.Interfaces.Repositorios;
 
 namespace AppParquadero.Infraestructura.Datos.Repositorios
 {
-    internal class ClienteRepositorio : IRepositorioBase<Cliente, Guid>
+    public class ClienteRepositorio : IRepositorioBase<Cliente, Guid>
     {
         ParqueaderoContexto contexto;
         public ClienteRepositorio(ParqueaderoContexto _contexto)
@@ -27,10 +27,10 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
 
         public void Editar(Cliente entidad)
         {
-           var respuesta = contexto.Clientes.Where(c => c.ClienteId == entidad.ClienteId)
-                .OrderBy(c=> c.ClienteId)
-                .FirstOrDefault();
-            if (respuesta!= null)
+            var respuesta = contexto.Clientes.Where(c => c.ClienteId == entidad.ClienteId)
+                 .OrderBy(c => c.ClienteId)
+                 .FirstOrDefault();
+            if (respuesta != null)
             {
                 respuesta.TipoDocumuento = entidad.TipoDocumuento;
                 respuesta.Telefono = entidad.Telefono;
@@ -67,5 +67,6 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
                 .OrderBy(c => c.ClienteId)
                 .FirstOrDefault();
             return respuesta;
+        }
     }
 }

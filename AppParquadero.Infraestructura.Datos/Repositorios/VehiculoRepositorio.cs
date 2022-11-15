@@ -9,7 +9,7 @@ using AppParqueadero.Dominio.Interfaces.Repositorios;
 
 namespace AppParquadero.Infraestructura.Datos.Repositorios
 {
-    internal class VehiculoRepositorio : IRepositorioBase<Vehiculo, Guid>
+    public class VehiculoRepositorio : IRepositorioBase<Vehiculo, Guid>
     {
         ParqueaderoContexto contexto;
         public VehiculoRepositorio(ParqueaderoContexto _contexto)

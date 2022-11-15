@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppParquadero.Infraestructura.Datos.Contexto;
+using System;
 
 namespace AppParquadero.Infraestructura.Datos
 {
@@ -6,7 +7,12 @@ namespace AppParquadero.Infraestructura.Datos
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //Aca se crea la base de datos
+            ParqueaderoContexto db = new ParqueaderoContexto();
+            db.Database.EnsureCreated();
+            Console.WriteLine("se creo con exito");
+            Console.ReadKey();
+
         }
     }
 }

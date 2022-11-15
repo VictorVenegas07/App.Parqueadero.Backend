@@ -16,6 +16,7 @@ namespace AppParquadero.Infraestructura.Datos.Configs
         public void Configure(EntityTypeBuilder<Puesto> builder)
         {
             builder.ToTable("Puesto");
+            builder.HasKey(c => c.PuestoId);
         }
     }
 }

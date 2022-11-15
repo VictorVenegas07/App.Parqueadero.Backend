@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "AppParqueadero.Aplicaciones/1.0.0": {
+        "dependencies": {
+          "AppParqueadero.Dominio": "1.0.0"
+        },
+        "runtime": {
+          "AppParqueadero.Aplicaciones.dll": {}
+        }
+      },
+      "AppParqueadero.Dominio/1.0.0": {
+        "runtime": {
+          "AppParqueadero.Dominio.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AppParqueadero.Aplicaciones/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AppParqueadero.Dominio/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

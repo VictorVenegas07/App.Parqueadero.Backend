@@ -21,7 +21,7 @@ namespace AppParquadero.Infraestructura.Datos.Contexto
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server = LAPTOP - 1I2RKO51\\SQLEXPRESS; Database = ParqueaderoBD; Trusted_Connection = True; MultipleActiveResultSets = true");
+            optionsBuilder.UseSqlServer(@"Server = VICTOR; Database = ParqueaderoBDO; Trusted_Connection = True; MultipleActiveResultSets = true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

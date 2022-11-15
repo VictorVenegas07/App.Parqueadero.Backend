@@ -15,17 +15,18 @@ namespace AppParquadero.Infraestructura.Datos.Configs
         public void Configure(EntityTypeBuilder<Reserva> builder)
         {
             builder.ToTable("Reserva");
-            builder.HasKey(c => c.ReservaId);
+            builder.HasKey(c => new {c.ReservaId ,c.ClienteId, c.PuestoId, c.VehiculoId });
 
             builder
-                .HasOne(r => r.Cliente)
+                .HasOne(r => r.cliente)
                 .WithMany(c => c.Reservas)
-                .HasForeignKey(r => r.ReservaId);
+                .HasForeignKey(r => r.ClienteId);
 
             builder
                 .HasOne(r => r.Vehiculo)
                 .WithMany(v => v.Reservas)
-                .HasForeignKey(r => r.VehiculoId);
+                .HasForeignKey(r => r.VehiculoId)
+                .OnDelete(DeleteBehavior.ClientCascade); 
 
             builder
                 .HasOne(r => r.Puesto)
