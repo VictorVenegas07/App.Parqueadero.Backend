@@ -1,4 +1,7 @@
 using AppParquadero.Infraestructura.Datos.Contexto;
+using AppParqueadero.infraestructura.API.Middleware;
+using AppParqueadero.infraestructura.API.utilidades;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +30,7 @@ namespace AppParqueadero.infraestructura.API
         {
             services.AddControllersWithViews();
             services.AddDbContext<ParqueaderoContexto>();
+            //services.AddAutoMapper(typeof(Startup));
             AddSwagger(services);
         }
 
@@ -49,6 +53,11 @@ namespace AppParqueadero.infraestructura.API
                     }
                 });
             });
+
+            var maperConfig = new MapperConfiguration(m => { m.AddProfile(new AutoMap()); });
+            IMapper mapper = maperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +73,8 @@ namespace AppParqueadero.infraestructura.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+            app.UseMiddleware<ExceptionManagerMiddleware>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSwagger();

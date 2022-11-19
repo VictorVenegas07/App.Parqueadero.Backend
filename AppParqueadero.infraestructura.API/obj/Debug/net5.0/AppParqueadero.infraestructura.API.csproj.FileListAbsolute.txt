@@ -90,3 +90,11 @@ C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestruc
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\AppParqueadero.Infraestructura.Datos.exe
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\AppParqueadero.Infraestructura.Datos.dll
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\AppParqueadero.Infraestructura.Datos.pdb
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Humanizer.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

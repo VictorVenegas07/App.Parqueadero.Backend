@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppParqueadero.Dominio.Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Dominio
 {
-    public class Puesto
+    public class Puesto:EntidadBase
     {
         
             [Key]
@@ -20,6 +21,9 @@ namespace AppParqueadero.Dominio
             public String Disponibilidad { get; set; }
             [JsonIgnore]
             public List<Reserva> Reservas { get; set; }
+            [JsonIgnore]
+            public List<Ticket> Tickets { get; set; }
+    
 
     }
 }

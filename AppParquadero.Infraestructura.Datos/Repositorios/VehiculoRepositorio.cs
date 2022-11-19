@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AppParquadero.Infraestructura.Datos.Contexto;
 using AppParqueadero.Dominio;
+using AppParqueadero.Dominio.Interfaces;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
 
 namespace AppParquadero.Infraestructura.Datos.Repositorios
@@ -18,7 +19,7 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
         }
         public Vehiculo Agregar(Vehiculo entidad)
         {
-            entidad.VehiculoId = Guid.NewGuid();
+            
             contexto.Vehiculos.Add(entidad);
             return entidad;
         }
@@ -60,6 +61,15 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
         {
             var respuesta = contexto.Vehiculos.Where(v => v.VehiculoId == entidad).FirstOrDefault();
             return respuesta;
+        }
+
+
+        public List<Vehiculo> Consultar(Func<Vehiculo, bool> expression = null)
+        {
+            if(expression != null)
+                return contexto.Vehiculos.Where(expression).ToList();
+
+            return contexto.Vehiculos.ToList();
         }
     }
 }

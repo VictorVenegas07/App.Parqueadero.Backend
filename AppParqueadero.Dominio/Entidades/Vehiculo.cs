@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppParqueadero.Dominio.Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,5 +28,8 @@ namespace AppParqueadero.Dominio
         public Cliente cliente { get; set; }
         [JsonIgnore]
         public List<Reserva> Reservas { get; set; }
+        [JsonIgnore]
+        public List<Ticket> Tickets { get; set; }
+
     }
 }

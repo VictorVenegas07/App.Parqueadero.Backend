@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppParqueadero.Dominio.Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,22 +10,19 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Dominio
 {
-    public class Cliente
+    public class Cliente:Persona
     {
 
         [Key]
+        [JsonIgnore]
         public Guid ClienteId { get; set; }
-        [Column(TypeName = "varchar(11)")]
-        public String Identificacion { get; set; }
-        [Column(TypeName = "varchar(3)")]
-        public String TipoDocumuento { get; set; }
-        [Column(TypeName = "varchar(20)")]
-        public String Nombre { get; set; }
-        [Column(TypeName = "varchar(15)")]
-        public String Telefono { get; set; }
+      
         [JsonIgnore]
         public List<Vehiculo> Vehiculos { get; set; }
         [JsonIgnore]
         public List<Reserva> Reservas { get; set; }
+        [JsonIgnore]
+        public List<Ticket> Tickets { get; set; }
+
     }
 }

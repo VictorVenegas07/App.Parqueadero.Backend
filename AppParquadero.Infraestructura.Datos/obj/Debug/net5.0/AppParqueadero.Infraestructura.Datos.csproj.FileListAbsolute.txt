@@ -73,3 +73,8 @@ C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestruct
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\obj\Debug\net5.0\AppParqueadero.Infraestructura.Datos.pdb
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\obj\Debug\net5.0\AppParqueadero.Infraestructura.Datos.genruntimeconfig.cache
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\obj\Debug\net5.0\ref\AppParqueadero.Infraestructura.Datos.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\bin\Debug\net5.0\Humanizer.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParquadero.Infraestructura.Datos\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

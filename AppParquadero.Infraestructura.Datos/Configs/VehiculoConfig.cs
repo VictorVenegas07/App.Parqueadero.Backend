@@ -17,6 +17,8 @@ namespace AppParquadero.Infraestructura.Datos.Configs
         {
            builder.ToTable("Vehiculo");
             builder.HasKey(c => c.VehiculoId);
+            builder.Property(x => x.VehiculoId)
+             .HasDefaultValueSql("NEWID()");
 
             builder
                .HasOne(c => c.cliente)

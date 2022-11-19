@@ -67,5 +67,9 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
         {
             return repositorioVehiculo.SeleccionarPorId(entidad);
         }
+
+        public Vehiculo BuscarPlata(string b) {
+            return repositorioVehiculo.Consultar(v => v.Placa == b).FirstOrDefault();
+        }
     }
 }

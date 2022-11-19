@@ -15,7 +15,9 @@ namespace AppParquadero.Infraestructura.Datos.Configs
         public void Configure(EntityTypeBuilder<Reserva> builder)
         {
             builder.ToTable("Reserva");
-            builder.HasKey(c => new {c.ReservaId ,c.ClienteId, c.PuestoId, c.VehiculoId });
+            builder.HasKey(c => c.ReservaId);
+            builder.Property(x => x.ReservaId)
+             .HasDefaultValueSql("NEWID()");
 
             builder
                 .HasOne(r => r.cliente)

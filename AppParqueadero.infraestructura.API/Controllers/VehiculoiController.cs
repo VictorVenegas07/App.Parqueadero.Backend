@@ -51,5 +51,10 @@ namespace AppParqueadero.infraestructura.API.Controllers
         public void Delete(int id)
         {
         }
+        [HttpGet("/Placa/{id}")]
+        public ActionResult<Vehiculo> GetQery(string id)
+        {
+            return Ok(servicio.BuscarPlata(id));
+        }
     }
 }

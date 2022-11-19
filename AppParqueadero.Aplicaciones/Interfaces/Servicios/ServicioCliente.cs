@@ -40,7 +40,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             try
             {
                 if (entidad == null)
-                    throw new ArgumentNullException("El vehiculo es requerido");
+                    throw new ArgumentNullException("El cliente es requerido");
 
                 repositorioCliente.Editar(entidad);
                 repositorioCliente.GuardarTodosLosCambios();

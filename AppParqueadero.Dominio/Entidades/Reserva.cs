@@ -11,8 +11,7 @@ namespace AppParqueadero.Dominio
 {
     public class Reserva
     {
-
-  
+        [Key]
         public Guid  ReservaId { get; set; }
         public Guid ClienteId { get; set; }
         public Guid VehiculoId { get; set; }
@@ -25,6 +24,7 @@ namespace AppParqueadero.Dominio
         public Puesto Puesto { get; set; }
         [Column(TypeName = "DateTime")]
         public DateTime FechaHora { get; set; }
+        [JsonIgnore]
         [Column(TypeName = "varchar(11)")]
         public String Estado { get; set; }
 

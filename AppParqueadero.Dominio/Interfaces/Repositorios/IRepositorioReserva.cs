@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AppParqueadero.Dominio.Interfaces.Repositorios
 {
     public interface IRepositorioReserva<TEntidad, TEntidadId> :
-        IAgregar<TEntidad>, IListar<TEntidad, TEntidadId>, ITransaccion, IModificar<TEntidad>
+        IAgregar<TEntidad>, IListar<TEntidad, TEntidadId>, ITransaccion, IModificar<TEntidad>, IConsulta<TEntidad, bool>
     {
         void AnularReserva(TEntidad entidad);
     }

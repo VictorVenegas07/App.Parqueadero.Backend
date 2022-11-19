@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using AppParquadero.Infraestructura.Datos.Contexto;
 using AppParqueadero.Dominio;
+using AppParqueadero.Dominio.Interfaces;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
 
 namespace AppParquadero.Infraestructura.Datos.Repositorios
@@ -20,7 +21,6 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
         }
         public Cliente Agregar(Cliente entidad)
         {
-            Guid id = Guid.NewGuid();
             contexto.Clientes.Add(entidad);
             return entidad;
         }
@@ -67,6 +67,20 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
                 .OrderBy(c => c.ClienteId)
                 .FirstOrDefault();
             return respuesta;
+        }
+        public Cliente BuscarCliente(string identificacion)
+        {
+            var respuesta = contexto.Clientes.FirstOrDefault(x => x.Identificacion == identificacion);
+            return (respuesta != null) ? respuesta : null;
+        }
+
+        
+
+        public List<Cliente> Consultar(Func<Cliente, bool> expression = null)
+        {
+            if (expression != null)
+                return contexto.Clientes.Where(expression).ToList();
+            return contexto.Clientes.ToList();
         }
     }
 }

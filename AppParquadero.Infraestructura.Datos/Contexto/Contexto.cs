@@ -9,6 +9,8 @@ using AppParqueadero.Dominio;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AppParquadero.Infraestructura.Datos.Configs;
+using AppParqueadero.Dominio.Entidades;
+using AppParqueadero.Infraestructura.Datos.Configs;
 
 namespace AppParquadero.Infraestructura.Datos.Contexto
 {
@@ -18,6 +20,13 @@ namespace AppParquadero.Infraestructura.Datos.Contexto
         public DbSet<Puesto> Puestos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Reserva> reservas { get; set; }
+        public DbSet<Empleado> Empleados { get; set; }
+        public DbSet<Horario> Horarios { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Tarifa> Tarifas { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,6 +40,17 @@ namespace AppParquadero.Infraestructura.Datos.Contexto
             modelBuilder.ApplyConfiguration(new ReservaConfig());
             modelBuilder.ApplyConfiguration(new PuestoConfig());
             modelBuilder.ApplyConfiguration(new VehiculoConfig());
+            modelBuilder.ApplyConfiguration(new EmpleadoConfig());
+            modelBuilder.ApplyConfiguration(new HorarioConfig());
+            modelBuilder.ApplyConfiguration(new UsuarioConfig());
+            modelBuilder.ApplyConfiguration(new TarifaConfig());
+            modelBuilder.ApplyConfiguration(new TicketdConfig());
+
+
+            modelBuilder.Entity<Puesto>().HasData(DataSeed.DataPuestos());
+            modelBuilder.Entity<Tarifa>().HasData(DataSeed.DataTarifas());
+
+
         }
 
 

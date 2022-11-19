@@ -17,6 +17,8 @@ namespace AppParquadero.Infraestructura.Datos.Configs
         {
             builder.ToTable("Puesto");
             builder.HasKey(c => c.PuestoId);
+            builder.Property(x => x.PuestoId)
+             .HasDefaultValueSql("NEWID()");
         }
     }
 }
