@@ -6,6 +6,8 @@ using AppParquadero.Infraestructura.Datos.Contexto;
 using AppParqueadero.Aplicaciones.Interfaces.Servicios;
 using AppParquadero.Infraestructura.Datos.Repositorios;
 using System;
+using AppParqueadero.infraestructura.API.Models.Cliente;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +19,13 @@ namespace AppParqueadero.infraestructura.API.Controllers
     {
         ClienteRepositorio repositorio;
         ServicioCliente servicio;
+        private readonly IMapper Mapper;
 
-        public ClienteController(ParqueaderoContexto contexto)
+        public ClienteController(ParqueaderoContexto contexto, IMapper mapper_)
         {
             repositorio = new ClienteRepositorio(contexto);
             servicio = new ServicioCliente(repositorio);
+            Mapper = mapper_;
         }
         // GET: api/<ClienteController>
         [HttpGet]
@@ -39,17 +43,16 @@ namespace AppParqueadero.infraestructura.API.Controllers
 
         // POST api/<ClienteController>
         [HttpPost]
-        public ActionResult Post([FromBody] Cliente cliente)
+        public ActionResult Post(ClienteModels cliente)
         {
-            return Ok(servicio.Agregar(cliente));
+            return Ok(servicio.Agregar(Mapper.Map<Cliente>(cliente)));
         }
 
         // PUT api/<ClienteController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] Cliente cliente)
+        public ActionResult Put(string id, ClienteModels cliente)
         {
-            cliente.ClienteId = id;
-            servicio.Editar(cliente);
+            servicio.Editar(Mapper.Map<Cliente>(cliente), Guid.Parse(id));
             return Ok("Datos actualizados");
         }
 

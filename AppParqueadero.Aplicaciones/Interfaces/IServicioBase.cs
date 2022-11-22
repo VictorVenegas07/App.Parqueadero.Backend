@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AppParqueadero.Aplicaciones.Interfaces
 {
     public interface IServicioBase<TEntidad, TEntidadId>
-        : IAgregar<TEntidad>, IModificar<TEntidad>, IEliminar<TEntidadId>, IListar<TEntidad, TEntidadId>  
+        : IAgregar<TEntidad>, IModificar<TEntidad,TEntidadId>, IEliminar<TEntidadId>, IListar<TEntidad, TEntidadId>  
     {
     }
 }

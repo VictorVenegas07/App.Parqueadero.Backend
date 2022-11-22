@@ -1,6 +1,8 @@
 ﻿using AppParquadero.Infraestructura.Datos.Contexto;
+using AppParqueadero.Aplicaciones.Interfaces;
 using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +11,20 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Infraestructura.Datos.Repositorios
 {
-    public class TicketdRepositorio : IRepositorioBase<Ticket, Guid>
+    public class TicketdRepositorio : ITicketRepositorio<Ticket, Guid>
     {
         ParqueaderoContexto contexto;
         public TicketdRepositorio(ParqueaderoContexto _contexto)
         {
             contexto = _contexto;
         }
+
+        public Ticket ActualizarEstado(Ticket entidad, Guid id)
+        {
+                contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            return entidad;
+        }
+
         public Ticket Agregar(Ticket entidad)
         {
             contexto.Tickets.Add(entidad);
@@ -25,30 +34,20 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
         public List<Ticket> Consultar(Func<Ticket, bool> expression = null)
         {
             if (expression != null)
-                return contexto.Tickets.Where(expression).ToList();
+                return contexto.Tickets
+                    .Include(x => x.Tarifa)
+                    .Include(x=> x.Vehiculo)
+                    .Include(x=> x.Cliente)
+                    .Include(x => x.Empleado)
+                    .Where(expression).ToList();
             return contexto.Tickets.ToList();
         }
 
-        public void Editar(Ticket entidad)
-        {
-            var respuesta = contexto.Tickets.Where(c => c.TickedId == entidad.TickedId)
-                .OrderBy(c => c.EmpleadoId)
-                .FirstOrDefault();
-            if (respuesta != null)
-            {
-                contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
-        }
+ 
 
-        public void Eliminar(Guid entidad)
+        public void Eliminar(Ticket entidad)
         {
-            var respuesta = contexto.Tickets.Where(c => c.TickedId == entidad)
-              .OrderBy(c => c.EmpleadoId)
-              .FirstOrDefault();
-            if (respuesta != null)
-            {
-                contexto.Tickets.Remove(respuesta);
-            }
+            contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
         }
 
         public void GuardarTodosLosCambios()
@@ -67,12 +66,23 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
 
         public List<Ticket> Listar()
         {
-            return contexto.Tickets.ToList();
+            return contexto.Tickets
+                .Include(x => x.Tarifa)
+                .Include(x => x.Vehiculo)
+                .Include(x => x.Cliente)
+                .Include(x=> x.Puesto)
+                .Include(x=> x.Empleado)
+                .ToList();
         }
 
         public Ticket SeleccionarPorId(Guid entidad)
         {
-            var respuesta = contexto.Tickets.Find(entidad);
+            var respuesta = contexto.Tickets.Where(x=> x.TickedId == entidad)
+                .Include(x => x.Tarifa)
+                .Include(x => x.Vehiculo)
+                .Include(x => x.Cliente)
+                .Include(x=> x.Empleado)
+                .Include(x => x.Puesto).FirstOrDefault();
             return respuesta;
         }
     }

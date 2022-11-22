@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Aplicaciones.Interfaces
 {
-    public interface IServicioReserva<TEntidad, TEntidadId>: IAgregar<TEntidad>, IListar<TEntidad,TEntidadId>, IModificar<TEntidad>
+    public interface IServicioReserva<TEntidad, TEntidadId>: IAgregar<TEntidad>, IListar<TEntidad,TEntidadId>, IModificar<TEntidad,TEntidadId>
     {
         void AnularReserva(TEntidad entidad);
     }

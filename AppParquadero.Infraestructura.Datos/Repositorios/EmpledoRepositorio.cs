@@ -29,28 +29,16 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             return contexto.Empleados.ToList();
         }
 
-        public void Editar(Empleado entidad)
+        public void Editar(Empleado entidad, Guid id)
         {
-            var respuesta = contexto.Empleados.Where(c => c.EmpleadoId == entidad.EmpleadoId)
-                .OrderBy(c => c.EmpleadoId)
-                .FirstOrDefault();
-            if (respuesta != null)
-            {
-                respuesta.Nombre = entidad.Nombre;
-                respuesta.Email = entidad.Email;
-                contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
+            contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
 
         public void Eliminar(Guid entidad)
         {
-            var respuesta = contexto.Empleados.Where(c => c.EmpleadoId == entidad)
-              .OrderBy(c => c.EmpleadoId)
-              .FirstOrDefault();
-            if (respuesta != null)
-            {
-                contexto.Empleados.Remove(respuesta);
-            }
+            var res = contexto.Empleados.Find(entidad);
+            contexto.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
         }
 
         public void GuardarTodosLosCambios()

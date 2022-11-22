@@ -2,7 +2,7 @@
 using AppParquadero.Infraestructura.Datos.Repositorios;
 using AppParqueadero.Aplicaciones.Interfaces.Servicios;
 using AppParqueadero.Dominio;
-using AppParqueadero.infraestructura.API.Models;
+using AppParqueadero.infraestructura.API.Models.Reserva;
 using AppParqueadero.Infraestructura.Datos.Repositorios;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

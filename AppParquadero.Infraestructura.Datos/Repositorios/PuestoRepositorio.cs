@@ -23,22 +23,30 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             return entidad;
         }
 
-        public void Editar(Puesto entidad)
+        public void Editar(Puesto entidad, Guid id)
         {
-            contexto.Puestos.Update(entidad);
             contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
 
         public void Eliminar(Guid entidad)
         {
-            var puesto = SeleccionarPorId(entidad);
-            if (puesto != null)
-                contexto.Puestos.Remove(puesto);
+            var res = contexto.Puestos.Find(entidad);
+            contexto.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
         }
 
         public void GuardarTodosLosCambios()
         {
-            contexto.SaveChanges();
+            try
+            {
+                contexto.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Error al tratar de guardar");
+            }
         }
 
         public List<Puesto> Listar()

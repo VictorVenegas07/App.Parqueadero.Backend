@@ -8,7 +8,7 @@ using AppParqueadero.Dominio.Interfaces;
 namespace AppParqueadero.Dominio.Interfaces.Repositorios
 {
     public interface IRepositorioBase<TEntidad, TEntidadId>
-        : IAgregar<TEntidad>, IModificar<TEntidad>, IEliminar<TEntidadId>, IListar<TEntidad, TEntidadId>,ITransaccion, IConsulta<TEntidad, bool>
+        : IAgregar<TEntidad>, IModificar<TEntidad, TEntidadId>, IEliminar<TEntidadId>, IListar<TEntidad, TEntidadId>,ITransaccion, IConsulta<TEntidad, bool>
     {
     }
 }

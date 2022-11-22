@@ -13,7 +13,6 @@ namespace AppParqueadero.Dominio.Entidades
     {
         [Key]
         public Guid TickedId { get; set; }
-
         public Guid ClienteId { get; set; }
         public Cliente Cliente { get; set; }
         public Guid VehiculoId { get; set; }
@@ -35,6 +34,11 @@ namespace AppParqueadero.Dominio.Entidades
         public void CalcularTotal()
         {
             Total = (decimal)(Math.Abs(HoraDeEntrada.Hour - HoraDeSalida.Value.Hour) * Tarifa.Valor);
+        }
+        public void Actualizar(string estado)
+        {
+            Estado = estado;
+            HoraDeSalida = DateTime.Now;
         }
     }
 }

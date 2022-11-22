@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AppParqueadero.Dominio;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
 using AppParqueadero.Aplicaciones.Interfaces;
+using AppParqueadero.Aplicaciones.Excepciones;
 
 namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 {
@@ -19,42 +20,37 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
         }
         public Vehiculo Agregar(Vehiculo entidad)
         {
-            try
-            {
-                if (entidad == null)
-                    throw new ArgumentNullException("El vehiculo es requerido");
+            if (ValidarVehiculo(entidad))
+                throw new ValidarExceptions($"El vehiculo con placa {entidad.Placa} ya existe");
 
-                var respuestaVehiculo = repositorioVehiculo.Agregar(entidad);
-                repositorioVehiculo.GuardarTodosLosCambios();
-                return respuestaVehiculo;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            var respuesta= repositorioVehiculo.Agregar(entidad);
+            repositorioVehiculo.GuardarTodosLosCambios();
+            return respuesta;
+        }
+        private bool ValidarVehiculo(Vehiculo entidad)
+        {
+            var vehiculo = repositorioVehiculo.Consultar(x => x.Placa == entidad.Placa).FirstOrDefault();
+            return vehiculo is not null;
         }
 
-        public void Editar(Vehiculo entidad)
+        public void Editar(Vehiculo entidad, Guid id)
         {
-            try
-            {
-                if (entidad == null)
-                    throw new ArgumentNullException("El vehiculo es requerido");
-
-                repositorioVehiculo.Editar(entidad);
-                repositorioVehiculo.GuardarTodosLosCambios();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            var response = repositorioVehiculo.SeleccionarPorId(id);
+            if (response is null)
+                throw new ValidarExceptions($"El vehiculo con placa {entidad.Placa} no exite");
+           
+            repositorioVehiculo.Editar(response, id);
+            repositorioVehiculo.GuardarTodosLosCambios();
         }
 
         public void Eliminar(Guid entidadId)
         {
-            repositorioVehiculo.Eliminar(entidadId);
+            var response = repositorioVehiculo.SeleccionarPorId(entidadId);
+            if (response is not null)
+                repositorioVehiculo.Eliminar(entidadId);
+            else
+                throw new ValidarExceptions($"el cliente que desea eliminar no existe");
+
             repositorioVehiculo.GuardarTodosLosCambios();
         }
 
@@ -65,7 +61,11 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 
         public Vehiculo SeleccionarPorId(Guid entidad)
         {
-            return repositorioVehiculo.SeleccionarPorId(entidad);
+            var res = repositorioVehiculo.SeleccionarPorId(entidad);
+            if (res is null)
+                throw new ValidarExceptions($"el vehiculo que busca no existe");
+
+            return res;
         }
 
         public Vehiculo BuscarPlata(string b) {

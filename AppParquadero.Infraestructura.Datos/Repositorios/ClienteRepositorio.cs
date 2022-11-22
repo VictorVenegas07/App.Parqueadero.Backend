@@ -25,35 +25,30 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
             return entidad;
         }
 
-        public void Editar(Cliente entidad)
+        public void Editar(Cliente entidad, Guid id)
         {
-            var respuesta = contexto.Clientes.Where(c => c.ClienteId == entidad.ClienteId)
-                 .OrderBy(c => c.ClienteId)
-                 .FirstOrDefault();
-            if (respuesta != null)
-            {
-                respuesta.TipoDocumuento = entidad.TipoDocumuento;
-                respuesta.Telefono = entidad.Telefono;
-                respuesta.Nombre = entidad.Nombre;
-                respuesta.Telefono = entidad.Telefono;
-                contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
+            contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
 
         public void Eliminar(Guid entidad)
         {
-            var respuesta = contexto.Clientes.Where(c => c.ClienteId == entidad)
-                .OrderBy(c => c.ClienteId)
-                .FirstOrDefault();
-            if (respuesta != null)
-            {
-                contexto.Clientes.Remove(respuesta);
-            }
+            var res = contexto.Clientes.Find(entidad);
+            contexto.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
         }
 
         public void GuardarTodosLosCambios()
         {
-            contexto.SaveChanges();
+            try
+            {
+                contexto.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Error al tratar de guardar");
+            }
         }
 
         public List<Cliente> Listar()

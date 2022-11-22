@@ -17,5 +17,13 @@ namespace AppParqueadero.Dominio.Entidades
         public Usuario Usuario { get; set; }
         [JsonIgnore]
         public List<Ticket> Tickets { get; set; }
+        public void Modificar(string tipoDocumento, string nombre, string telefono, string email)
+        {
+            TipoDocumuento = tipoDocumento;
+            Nombre = nombre;
+            Telefono = telefono;
+            Email = email;
+
+        }
     }
 }

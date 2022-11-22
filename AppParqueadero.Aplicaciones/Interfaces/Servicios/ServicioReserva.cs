@@ -80,8 +80,8 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
                     var puesto = repositoriopuesto.SeleccionarPorId(entidad.PuestoId);
                     puesto.Disponibilidad = "Disponible";
                     reserva.Estado = "Cancelada";
-                    repositorioReserva.Editar(reserva);
-                    repositoriopuesto.Editar(puesto);
+                    repositorioReserva.Editar(reserva, entidad.ReservaId);
+                    repositoriopuesto.Editar(puesto, entidad.PuestoId);
                     repositorioReserva.GuardarTodosLosCambios();
                 }
                 else
@@ -90,7 +90,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
                 }
         }
 
-        public void Editar(Reserva entidad)
+        public void Editar(Reserva entidad, Guid id)
         {
             throw new NotImplementedException();
         }
@@ -102,7 +102,12 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 
         public Reserva SeleccionarPorId(Guid entidad)
         {
-           return repositorioReserva.SeleccionarPorId(entidad);
+
+            var res = repositorioReserva.SeleccionarPorId(entidad);
+            if (res is null)
+                throw new ValidarExceptions($"La reserva que busca no existe");
+
+            return res;
         }
 
         private Boolean ValidaFecha(DateTime fecha)

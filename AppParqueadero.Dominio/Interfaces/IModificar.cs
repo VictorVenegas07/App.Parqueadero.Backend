@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Dominio.Interfaces
 {
-    public interface IModificar<T>
+    public interface IModificar<T, TId>
     {
-        void Editar (T entidad);
+        void Editar (T entidad, TId id);
     }
 }

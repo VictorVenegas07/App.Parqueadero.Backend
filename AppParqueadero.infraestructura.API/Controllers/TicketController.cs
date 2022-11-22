@@ -2,12 +2,13 @@
 using AppParquadero.Infraestructura.Datos.Repositorios;
 using AppParqueadero.Aplicaciones.Interfaces.Servicios;
 using AppParqueadero.Dominio.Entidades;
-using AppParqueadero.infraestructura.API.Models;
+using AppParqueadero.infraestructura.API.Models.Ticket;
 using AppParqueadero.Infraestructura.Datos.Repositorios;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -43,16 +44,23 @@ namespace AppParqueadero.infraestructura.API.Controllers
 
         // GET: api/<TicketController>
         [HttpGet]
-        public ActionResult<IEnumerable<Ticket>> Get()
+        public ActionResult<IEnumerable<ViewTicketd>> Get()
         {
-            return Ok(servicio.Listar());
+            var response = servicio.Listar();
+            return Ok(response.Select(x => mapper.Map<ViewTicketd>(x)));
         }
 
         // GET api/<TicketController>/5
         [HttpGet("{id}")]
-        public ActionResult<Ticket> Get(Guid id)
+        public ActionResult<ViewTicketd> Get(Guid id)
         {
-            return Ok(servicio.SeleccionarPorId(id));
+            return Ok(mapper.Map<ViewTicketd>(servicio.SeleccionarPorId(id)));
+        }
+
+        [HttpGet("Salida/{id}")]
+        public ActionResult<Ticket> GetOuput(string id)
+        {
+            return Ok(servicio.ActualizarEstado(Guid.Parse(id)));
         }
 
         // POST api/<TicketController>
@@ -62,16 +70,12 @@ namespace AppParqueadero.infraestructura.API.Controllers
             return Ok(servicio.Agregar(mapper.Map<Ticket>(ticket)));
         }
 
-        // PUT api/<TicketController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE api/<TicketController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<string> Delete(string id)
         {
+            servicio.Eliminar(Guid.Parse(id));
+            return Ok("Se a eliminado correctamente");
         }
     }
 }

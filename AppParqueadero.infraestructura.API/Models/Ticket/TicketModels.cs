@@ -3,8 +3,11 @@ using AppParqueadero.Dominio;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using AppParqueadero.infraestructura.API.Models.Vehiculo;
+using AppParqueadero.infraestructura.API.Models.Cliente;
 
-namespace AppParqueadero.infraestructura.API.Models
+
+namespace AppParqueadero.infraestructura.API.Models.Ticket
 {
     public class TicketModels
     {

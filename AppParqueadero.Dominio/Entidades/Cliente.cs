@@ -14,7 +14,6 @@ namespace AppParqueadero.Dominio
     {
 
         [Key]
-        [JsonIgnore]
         public Guid ClienteId { get; set; }
       
         [JsonIgnore]
@@ -23,6 +22,13 @@ namespace AppParqueadero.Dominio
         public List<Reserva> Reservas { get; set; }
         [JsonIgnore]
         public List<Ticket> Tickets { get; set; }
+
+        public void Modificar(string tipoDocumento, string nombre, string telefono)
+        {
+            TipoDocumuento = tipoDocumento;
+            Nombre = nombre;
+            Telefono = telefono;
+        }
 
     }
 }

@@ -29,28 +29,16 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             return contexto.Tarifas.ToList();
         }
 
-        public void Editar(Tarifa entidad)
+        public void Editar(Tarifa entidad, Guid id)
         {
-            var respuesta = contexto.Tarifas.Where(c => c.TarifaId == entidad.TarifaId)
-                 .OrderBy(c => c.TarifaId)
-                 .FirstOrDefault();
-            if (respuesta != null)
-            {
-                respuesta.Tipo = entidad.Tipo;
-                respuesta.Valor = entidad.Valor;
                 contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
         }
 
         public void Eliminar(Guid entidad)
         {
-            var respuesta = contexto.Tarifas.Where(c => c.TarifaId == entidad)
-              .OrderBy(c => c.TarifaId)
-              .FirstOrDefault();
-            if (respuesta != null)
-            {
-                contexto.Tarifas.Remove(respuesta);
-            }
+            var res = contexto.Tarifas.Find(entidad);
+            contexto.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
         }
 
         public void GuardarTodosLosCambios()

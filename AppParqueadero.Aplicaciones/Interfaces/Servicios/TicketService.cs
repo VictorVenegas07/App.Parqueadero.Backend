@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 {
-    public class TicketService : IServicioBase<Ticket, Guid>
+    public class TicketService : ITicketService<Ticket, Guid>
     {
-        IRepositorioBase<Ticket, Guid> repositorioTicket;
+        ITicketRepositorio<Ticket, Guid> repositorioTicket;
         IRepositorioBase<Empleado, Guid> repositorioEmpleado;
         IRepositorioBase<Puesto, Guid> repositorioPuesto;
         IRepositorioBase<Tarifa, Guid> repositorioTarifa;
         IRepositorioBase<Cliente, Guid> repositorioCliente;
         IRepositorioBase<Vehiculo, Guid> repositorioVehiculo;
         public TicketService(
-            IRepositorioBase<Ticket, Guid> repositorioTicket, 
+            ITicketRepositorio<Ticket, Guid> repositorioTicket,
             IRepositorioBase<Empleado, Guid> repositorioEmpleado,
             IRepositorioBase<Puesto, Guid> repositorioPuesto,
             IRepositorioBase<Tarifa, Guid> repositorioTarifa,
@@ -38,6 +38,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
         public Ticket Agregar(Ticket entidad)
         {
             ValidarTicket(entidad);
+            entidad.Actualizar("Entrada");
             var response = repositorioTicket.Agregar(entidad);
             repositorioTicket.GuardarTodosLosCambios();
             return response;
@@ -75,24 +76,53 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
                 ticket.Vehiculo.cliente = ticket.Cliente;
 
         }
-        public void Editar(Ticket entidad)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Eliminar(Guid entidad)
         {
-            throw new NotImplementedException();
+            var response = repositorioTicket.SeleccionarPorId(entidad);
+            if (response is not null)
+                repositorioTicket.Eliminar(response);
+            else
+                throw new ValidarExceptions($"El ticket que desea eliminar no existe");
+
+            repositorioTarifa.GuardarTodosLosCambios();
         }
 
         public List<Ticket> Listar()
         {
-            throw new NotImplementedException();
+            var response = repositorioTicket.Listar();
+            if (response is null)
+                throw new ValidarExceptions("No hay tickets");
+
+            return response;
+                
         }
 
         public Ticket SeleccionarPorId(Guid entidad)
         {
-            throw new NotImplementedException();
+            var res = repositorioTicket.SeleccionarPorId(entidad);
+            if (res is null)
+                throw new ValidarExceptions($"el ticket que busca no existe");
+
+            return res;
+        }
+
+        public Ticket ActualizarEstado(Guid id)
+        {
+            Ticket response = ValidarEstado(id);
+            response.Actualizar("Salida");
+            response.CalcularTotal();
+            var ticket = repositorioTicket.ActualizarEstado(response, id);
+            repositorioTarifa.GuardarTodosLosCambios();
+            return ticket;
+        }
+
+        private Ticket ValidarEstado(Guid id)
+        {
+            var response = repositorioTicket.Consultar(x => x.TickedId == id && x.Estado == "Entrada").FirstOrDefault();
+            if (response is null)
+                throw new ValidarExceptions($"El ticket no es valido");
+            return response;
         }
     }
 }

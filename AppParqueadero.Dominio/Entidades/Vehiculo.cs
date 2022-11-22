@@ -30,6 +30,5 @@ namespace AppParqueadero.Dominio
         public List<Reserva> Reservas { get; set; }
         [JsonIgnore]
         public List<Ticket> Tickets { get; set; }
-
     }
 }

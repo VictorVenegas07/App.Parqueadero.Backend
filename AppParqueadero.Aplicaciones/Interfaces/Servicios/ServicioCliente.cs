@@ -1,4 +1,6 @@
-﻿using AppParqueadero.Dominio;
+﻿using AppParqueadero.Aplicaciones.Excepciones;
+using AppParqueadero.Dominio;
+using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.Dominio.Interfaces;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
 using System;
@@ -19,42 +21,40 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 
         public Cliente Agregar(Cliente entidad)
         {
-            try
-            {
-                if (entidad == null)
-                    throw new ArgumentNullException("El Cliente es requerido");
+            
+                if (ValidarCliente(entidad))
+                    throw new ValidarExceptions($"El Cliente con identificacion {entidad.Identificacion} ya existe");
 
                 var respuestaCliente = repositorioCliente.Agregar(entidad);
                 repositorioCliente.GuardarTodosLosCambios();
                 return respuestaCliente;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+           
         }
-
-        public void Editar(Cliente entidad)
+        private bool ValidarCliente(Cliente entidad)
         {
-            try
-            {
-                if (entidad == null)
-                    throw new ArgumentNullException("El cliente es requerido");
+            var cliente = repositorioCliente.Consultar(x => x.Identificacion == entidad.Identificacion).FirstOrDefault();
+            return cliente is not null;
+        }
+        public void Editar(Cliente entidad, Guid id)
+        {
+            var response = repositorioCliente.SeleccionarPorId(id);
+            if (response is null)
+                throw new ValidarExceptions($"El cliente con identificacion {entidad.Identificacion} no exite");
 
-                repositorioCliente.Editar(entidad);
-                repositorioCliente.GuardarTodosLosCambios();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            response.Modificar(entidad.TipoDocumuento, entidad.Nombre, entidad.Telefono);
+            repositorioCliente.Editar(response, id);
+            repositorioCliente.GuardarTodosLosCambios();
+            
         }
 
         public void Eliminar(Guid entidad)
         {
-            repositorioCliente.Eliminar(entidad);
+            var response = repositorioCliente.SeleccionarPorId(entidad);
+            if (response is not null)
+                repositorioCliente.Eliminar(entidad);
+            else
+                throw new ValidarExceptions($"el cliente que desea eliminar no existe");
+
             repositorioCliente.GuardarTodosLosCambios();
         }
 
@@ -65,7 +65,11 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 
         public Cliente SeleccionarPorId(Guid entidad)
         {
-            return repositorioCliente.SeleccionarPorId(entidad);
+            var res = repositorioCliente.SeleccionarPorId(entidad);
+            if (res is null)
+                throw new ValidarExceptions($"El cliente que busca no existe");
+
+            return res;
         }
     }
 }

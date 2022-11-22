@@ -4,6 +4,9 @@ using AppParquadero.Infraestructura.Datos.Contexto;
 using AppParqueadero.Aplicaciones.Interfaces.Servicios;
 using AppParquadero.Infraestructura.Datos.Repositorios;
 using System.Collections.Generic;
+using AutoMapper;
+using System;
+using AppParqueadero.infraestructura.API.Models.Vehiculo;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AppParqueadero.infraestructura.API.Controllers
@@ -14,11 +17,14 @@ namespace AppParqueadero.infraestructura.API.Controllers
     {
         VehiculoRepositorio repositorio;
         VehiculoServicio servicio;
+        private readonly IMapper Mapper;
 
-        public VehiculoiController(ParqueaderoContexto contexto)
+
+        public VehiculoiController(ParqueaderoContexto contexto, IMapper Mapper_)
         {
              repositorio = new VehiculoRepositorio(contexto);
              servicio = new VehiculoServicio(repositorio);
+            Mapper = Mapper_;
         }
         // GET: api/<VehiculoiController>
         [HttpGet]
@@ -29,27 +35,32 @@ namespace AppParqueadero.infraestructura.API.Controllers
 
         // GET api/<VehiculoiController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<Vehiculo> Get(string id)
         {
-            return "value";
+            return Ok(servicio.SeleccionarPorId(Guid.Parse(id)));
         }
 
         // POST api/<VehiculoiController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Vehiculo> Post(VehiculoInput vehiculo)
         {
+            return Ok(servicio.Agregar(Mapper.Map<Vehiculo>(vehiculo)));
         }
 
         // PUT api/<VehiculoiController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(string id, VehiculoModels value)
         {
+            servicio.Editar(Mapper.Map<Vehiculo>(value), Guid.Parse(id));
+            return Ok("Editado correctamente");
         }
 
         // DELETE api/<VehiculoiController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(string id)
         {
+            servicio.Eliminar(Guid.Parse(id));
+            return Ok("Eliminado correctamente");
         }
         [HttpGet("/Placa/{id}")]
         public ActionResult<Vehiculo> GetQery(string id)

@@ -28,5 +28,10 @@ namespace AppParqueadero.Dominio
         [Column(TypeName = "varchar(11)")]
         public String Estado { get; set; }
 
+        public void Modificar(string estado)
+        {
+            Estado = estado;
+        }
+
     }
 }

@@ -35,7 +35,7 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             return contexto.reservas.ToList();
         }
 
-        public void Editar(Reserva entidad)
+        public void Editar(Reserva entidad, Guid id)
         {
             contexto.reservas.Update(entidad);
             contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

@@ -24,32 +24,30 @@ namespace AppParquadero.Infraestructura.Datos.Repositorios
             return entidad;
         }
 
-        public void Editar(Vehiculo entidad)
+        public void Editar(Vehiculo entidad, Guid id)
         {
-            var respuesta = contexto.Vehiculos.Where(v => v.VehiculoId == entidad.VehiculoId).FirstOrDefault();
-            if (respuesta != null)
-            {
-                respuesta.Marca = entidad.Marca;
-                respuesta.Placa = entidad.Placa;
-                respuesta.Modelo = entidad.Modelo;
-                respuesta.Tipo = entidad.Tipo;
-                contexto.Entry(respuesta).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            }
+            contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
         }
 
         public void Eliminar(Guid entidad)
         {
-            var respuesta = contexto.Vehiculos.Where(v => v.VehiculoId == entidad).FirstOrDefault();
-            if (respuesta != null)
-            {
-                contexto.Vehiculos.Remove(respuesta);
-            }
+            var res = contexto.Tarifas.Find(entidad);
+            contexto.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
         }
 
         public void GuardarTodosLosCambios()
         {
-            contexto.SaveChanges();
+            try
+            {
+                contexto.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("Error al tratar de guardar");
+            }
         }
 
         public List<Vehiculo> Listar()

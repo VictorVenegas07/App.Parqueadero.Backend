@@ -14,5 +14,12 @@ namespace AppParqueadero.Dominio.Entidades
         public string Cargo { get; set; }
         public Guid EmpleadoId { get; set; }
         public Empleado Empleado { get; set; }
+
+        public void Actualizar(string nombreUser, string contraseña, string cargo)
+        {
+            NombreUsuario = nombreUser;
+            Contraseña = contraseña;
+            Cargo = cargo;
+        }
     }
 }
