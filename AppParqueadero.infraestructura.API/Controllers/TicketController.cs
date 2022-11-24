@@ -5,9 +5,11 @@ using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.infraestructura.API.Models.Ticket;
 using AppParqueadero.Infraestructura.Datos.Repositorios;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.infraestructura.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketController : ControllerBase

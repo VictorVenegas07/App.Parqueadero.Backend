@@ -4,15 +4,18 @@ using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.infraestructura.API.Models.Tarifa;
 using AppParqueadero.Infraestructura.Datos.Repositorios;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AppParqueadero.infraestructura.API.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     [Route("api/[controller]")]
     [ApiController]
     public class TarifaController : ControllerBase

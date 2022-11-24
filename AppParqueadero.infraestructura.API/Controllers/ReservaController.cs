@@ -2,18 +2,24 @@
 using AppParquadero.Infraestructura.Datos.Repositorios;
 using AppParqueadero.Aplicaciones.Interfaces.Servicios;
 using AppParqueadero.Dominio;
+using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.infraestructura.API.Models.Reserva;
+using AppParqueadero.infraestructura.API.Models.Ticket;
 using AppParqueadero.Infraestructura.Datos.Repositorios;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AppParqueadero.infraestructura.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ReservaController : ControllerBase
@@ -23,6 +29,8 @@ namespace AppParqueadero.infraestructura.API.Controllers
         private readonly ClienteRepositorio clienteRepositorio;
         private readonly PuestoRepositorio puestoRepositorio;
         private readonly VehiculoRepositorio vehiculoRepositorio;
+        private readonly TarifaRepositori tarifaRepositorio;
+
         private readonly IMapper mapper;
         public ReservaController(ParqueaderoContexto contexto, IMapper mapper_)
         {
@@ -30,21 +38,22 @@ namespace AppParqueadero.infraestructura.API.Controllers
             clienteRepositorio = new ClienteRepositorio(contexto);
             puestoRepositorio = new PuestoRepositorio(contexto);
             vehiculoRepositorio = new VehiculoRepositorio(contexto);
-            servicio = new ServicioReserva(repositorioReserva, vehiculoRepositorio, clienteRepositorio, puestoRepositorio);
+            tarifaRepositorio = new TarifaRepositori(contexto);
+            servicio = new ServicioReserva(repositorioReserva, vehiculoRepositorio, clienteRepositorio, puestoRepositorio, tarifaRepositorio);
             mapper = mapper_;
         }
         // GET: api/<ReservaController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reserva>>> Get()
+        public async Task<ActionResult<IEnumerable<ViewReserva>>> Get()
         {
-            return Ok(servicio.Listar());
+            return Ok(servicio.Listar().Select(x=> mapper.Map<ViewReserva>(x)));
         }
 
         // GET api/<ReservaController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Reserva>> GetId(Guid id)
         {
-            return Ok(servicio.SeleccionarPorId(id));
+            return Ok(mapper.Map<ViewReserva>(servicio.SeleccionarPorId(id)));
         }
 
         // POST api/<ReservaController>
@@ -62,9 +71,11 @@ namespace AppParqueadero.infraestructura.API.Controllers
         }
 
         // DELETE api/<ReservaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost("/Generar/Ticket")]
+        public async Task<ActionResult<ViewTicketd>> PostGenerarTicket(TicketReserva reserva)
         {
+           var response = await servicio.GenerarTicket(mapper.Map<Ticket>(reserva), reserva.ReservaId);
+            return Ok(mapper.Map<ViewTicketd>(response));
         }
     }
 }

@@ -6,6 +6,7 @@ using AppParqueadero.infraestructura.API.Models.Puesto;
 using AppParqueadero.infraestructura.API.Models.Reserva;
 using AppParqueadero.infraestructura.API.Models.Tarifa;
 using AppParqueadero.infraestructura.API.Models.Ticket;
+using AppParqueadero.infraestructura.API.Models.Usuario;
 using AppParqueadero.infraestructura.API.Models.Vehiculo;
 using AutoMapper;
 using System;
@@ -19,6 +20,11 @@ namespace AppParqueadero.infraestructura.API.utilidades
             #region "Modelos de reserva"
             //Modelo de entrada reserva
             CreateMap<ReservaModel, Reserva>();
+            //modelo de salida reserva 
+            CreateMap<Reserva, ViewReserva>();
+            CreateMap<TicketReserva, Ticket>();
+
+
             #endregion
             #region "Modelos de cliente"
             //Modelo de entrada cliente
@@ -34,6 +40,7 @@ namespace AppParqueadero.infraestructura.API.utilidades
 
             //Modelo de salida Vehiculo
             CreateMap<Vehiculo, ViewVehiculo>();
+
 
             #endregion
             #region "Modelo de tarifa"
@@ -58,12 +65,20 @@ namespace AppParqueadero.infraestructura.API.utilidades
 
             #region "Modelos de Empleado"
             //Modelo de entrada empleado
-
+            CreateMap<EmpleadoInput, Empleado>();
+            CreateMap<UpdateEmpleado, Empleado>();
             //modelo de salida empleado
-            CreateMap<ViewEmpleado, Empleado>();
+            CreateMap<Empleado, ViewEmpleado>();
             #endregion
 
 
+            #region "Modelos de Usuario"
+            //Modelo de entrada Usuario
+            CreateMap<UsuarioInput, Usuario>();
+            //modelo de salida Usuario
+            CreateMap<Usuario, UsuarioLog>();
+
+            #endregion
 
         }
     }

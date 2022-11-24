@@ -8,11 +8,13 @@ using AppParquadero.Infraestructura.Datos.Repositorios;
 using System;
 using AppParqueadero.infraestructura.API.Models.Cliente;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AppParqueadero.infraestructura.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClienteController : ControllerBase

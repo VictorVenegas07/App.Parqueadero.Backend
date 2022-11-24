@@ -1,6 +1,8 @@
 ﻿using AppParquadero.Infraestructura.Datos.Contexto;
 using AppParqueadero.Dominio;
+using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,12 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
 
+        public async Task<Ticket> GenerarTicket(Ticket entidad)
+        {
+            await contexto.Tickets.AddAsync(entidad);
+            return entidad;
+        }
+
         public void GuardarTodosLosCambios()
         {
             try
@@ -56,14 +64,27 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
 
         public List<Reserva> Listar()
         {
-            return contexto.reservas.ToList();
+            return contexto.reservas
+                .Include(x=> x.Puesto)
+                .Include(x=> x.cliente)
+                .Include(x => x.Vehiculo)
+                .ToList();
         }
 
         public Reserva SeleccionarPorId(Guid entidad)
         {
-            return contexto.reservas.Where(c => c.ReservaId == entidad)
+            return contexto.reservas
+                 .Include(x => x.Vehiculo)
+                .Include(x => x.cliente)
+                .Include(x => x.Puesto)
+                .Where(c => c.ReservaId == entidad)
                  .OrderBy(c => c.ReservaId)
                  .FirstOrDefault();
+        }
+
+        public async Task<bool> ValidaReserva(Guid reservaId)
+        {
+            return await contexto.reservas.AnyAsync(x => x.ReservaId == reservaId);
         }
     }
 }

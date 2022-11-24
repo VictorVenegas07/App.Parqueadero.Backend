@@ -98,3 +98,8 @@ C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestruc
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\VIcto\Documents\Proyectos web\Devparqueadero\AppParqueadero.infraestructura.API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

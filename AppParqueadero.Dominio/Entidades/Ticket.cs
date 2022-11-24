@@ -40,5 +40,11 @@ namespace AppParqueadero.Dominio.Entidades
             Estado = estado;
             HoraDeSalida = DateTime.Now;
         }
+
+        public void AsingarValores()
+        {
+            Estado = "Entrada";
+            HoraDeEntrada = DateTime.Now;
+        }
     }
 }

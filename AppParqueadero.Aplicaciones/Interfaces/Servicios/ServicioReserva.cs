@@ -8,6 +8,7 @@ using AppParqueadero.Dominio;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
 using AppParqueadero.Aplicaciones.Interfaces;
 using AppParqueadero.Aplicaciones.Excepciones;
+using AppParqueadero.Dominio.Entidades;
 
 namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 {
@@ -17,14 +18,19 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
         IRepositorioBase< Vehiculo, Guid> repositoriovohiculo;
         IRepositorioBase<Cliente, Guid> repositoriocliente;
         IRepositorioBase<Puesto, Guid> repositoriopuesto;
+        IRepositorioBase<Tarifa, Guid> repositorioTarifa;
+
         public ServicioReserva(IRepositorioReserva<Reserva, Guid> _repositorioReserva,
         IRepositorioBase<Vehiculo, Guid> _repositoriovohiculo,
-        IRepositorioBase<Cliente, Guid> _repositoriocliente, IRepositorioBase<Puesto, Guid> _repositoriopuesto)
+        IRepositorioBase<Cliente, Guid> _repositoriocliente,
+        IRepositorioBase<Puesto, Guid> _repositoriopuesto,
+        IRepositorioBase<Tarifa, Guid> _repositorioTarifa)
         {
             repositoriocliente = _repositoriocliente;
             repositorioReserva = _repositorioReserva;
             repositoriovohiculo = _repositoriovohiculo;
             repositoriopuesto = _repositoriopuesto;
+            repositorioTarifa = _repositorioTarifa;
         }
         public Reserva Agregar(Reserva reserva)
         {
@@ -37,6 +43,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
                 throw new ValidarExceptions("El puesto es requerida preferiblemente disponible");
 
             ValidarReserva(reserva);
+            reserva.Modificar("Pendiente");
             if (ValidarVehiculoReserva(reserva))
                 respuesta = repositorioReserva.Agregar(reserva);
             else
@@ -114,6 +121,60 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
         {
             return (DateTime.Compare(fecha, DateTime.Now) >= 0) ? fecha.AddMinutes(3) <= DateTime.Now.AddDays(7) : false;
 
+        }
+
+        public async Task<Ticket> GenerarTicket(Ticket entidad, Guid reservaId)
+        {
+
+            if (await ValidaReserva(reservaId))
+            {
+                ValidarReserva(reservaId);
+                AsignarTarifa(entidad);
+                ActualizarReserva(reservaId);
+                entidad.AsingarValores();
+                var resp = await repositorioReserva.GenerarTicket(entidad);
+                repositorioReserva.GuardarTodosLosCambios();
+                return resp;
+            }
+            else
+                throw new ValidarExceptions("La reserva no es correcta");
+              
+        }
+        private void AsignarTarifa(Ticket ticket)
+        {
+            var vehiculo = BuscarVehiculo(ticket.VehiculoId);
+            var tarifa = repositorioTarifa.Consultar(x => x.Tipo == vehiculo.Tipo).FirstOrDefault();
+            if (tarifa is not null)
+                ticket.TarifaId = tarifa.TarifaId;
+            else
+                throw new ValidarExceptions("Tarifa invalida");
+        }
+        private Vehiculo BuscarVehiculo(Guid idVehiculo)
+        {
+            var resp = repositoriovohiculo.SeleccionarPorId(idVehiculo);
+            if (resp is null)
+                throw new ValidarExceptions("El vehiculo no existe");
+
+            return resp;
+        }
+        private void ActualizarReserva(Guid reservaId)
+        {
+            var reserva = repositorioReserva.SeleccionarPorId(reservaId);
+            if (reserva is not null)
+                reserva.Modificar("En uso");
+            else
+                throw new ValidarExceptions("Error reserva no encontrada");
+        }
+
+        public async Task<bool> ValidaReserva(Guid ReservaId)
+        {
+            return await repositorioReserva.ValidaReserva(ReservaId);
+        }
+        private void ValidarReserva(Guid guid)
+        {
+            var reserva = repositorioReserva.Consultar(x => x.ReservaId == guid && x.Estado == "Pendiente").FirstOrDefault();
+            if (reserva is null)
+                throw new ValidarExceptions("La reserva no es correcta");
         }
     }
 }

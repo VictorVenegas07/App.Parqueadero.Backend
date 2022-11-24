@@ -9,7 +9,7 @@ namespace AppParqueadero.Dominio.Entidades
 {
     public class Empleado:Persona
     {
-        [JsonIgnore]
+  
         public Guid EmpleadoId { get; set; }
         public List<Horario> Horarios  { get; set; }
         public string Email { get; set; }

@@ -38,7 +38,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
         public Ticket Agregar(Ticket entidad)
         {
             ValidarTicket(entidad);
-            entidad.Actualizar("Entrada");
+            entidad.AsingarValores();
             var response = repositorioTicket.Agregar(entidad);
             repositorioTicket.GuardarTodosLosCambios();
             return response;
@@ -75,6 +75,12 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             else
                 ticket.Vehiculo.cliente = ticket.Cliente;
 
+        }
+        private void ActualizarPuesto(Guid puestoid)
+        {
+            var puesto = repositorioPuesto.SeleccionarPorId(puestoid);
+            puesto.Modificar("Ocupado");
+            repositorioPuesto.Editar(puesto, puestoid);
         }
 
         public void Eliminar(Guid entidad)
