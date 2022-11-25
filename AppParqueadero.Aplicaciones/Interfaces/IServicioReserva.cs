@@ -10,11 +10,13 @@ namespace AppParqueadero.Aplicaciones.Interfaces
 {
     public interface IServicioReserva<TEntidad, TEntidadId>: IAgregar<TEntidad>, IListar<TEntidad,TEntidadId>, IModificar<TEntidad,TEntidadId>
     {
-        void AnularReserva(TEntidad entidad);
+        void AnularReserva(TEntidadId entidad);
 
         Task<Ticket> GenerarTicket(Ticket entidad, TEntidadId reservaId);
 
         Task<bool> ValidaReserva(TEntidadId ReservaId);
+
+        IEnumerable<TEntidad> BuscarReservaCliente(string identificacion);
 
 
     }

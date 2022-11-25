@@ -33,7 +33,11 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
         public List<Reserva> Consultar(Func<Reserva, bool> expression = null)
         {
             if (expression != null)
-                return contexto.reservas.Where(expression).ToList();
+                return contexto.reservas
+                    .Include(x => x.Puesto)
+                    .Include(x => x.cliente)
+                    .Include(x => x.Vehiculo)
+                    .Where(expression).ToList();
             return contexto.reservas.ToList();
         }
 

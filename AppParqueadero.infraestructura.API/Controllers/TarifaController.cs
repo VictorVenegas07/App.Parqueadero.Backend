@@ -30,6 +30,7 @@ namespace AppParqueadero.infraestructura.API.Controllers
             mapper = mappe_;
         }
         // GET: api/<TarifaController>
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<Tarifa>> Get()
         {

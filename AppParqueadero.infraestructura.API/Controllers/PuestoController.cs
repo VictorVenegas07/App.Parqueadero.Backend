@@ -32,6 +32,7 @@ namespace AppParqueadero.infraestructura.API.Controllers
             Mapper = mapper_;
         }
         // GET: api/<PuestoController>
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<Puesto>> Get()
         {

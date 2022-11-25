@@ -65,5 +65,12 @@ namespace AppParqueadero.infraestructura.API.Controllers
             servicio.Eliminar(id);
             return Ok("Se elimino correctamente");
         }
+        [AllowAnonymous]
+        [HttpGet("/identificacion/{id}")]
+        public ActionResult<ViewCliente> GetIdentificacion(string id)
+        {
+           var res=  servicio.BuscarIdentificacion(id);
+            return Ok(Mapper.Map<ViewCliente>(res));
+        }
     }
 }

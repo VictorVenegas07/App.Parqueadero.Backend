@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AppParquadero.Infraestructura.Datos.Configs;
 using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.Infraestructura.Datos.Configs;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppParquadero.Infraestructura.Datos.Contexto
 {
@@ -25,6 +26,13 @@ namespace AppParquadero.Infraestructura.Datos.Contexto
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Tarifa> Tarifas { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        [NotMapped]
+        public DbSet<Estadistica> Estadisticas { get; set; }
+        [NotMapped]
+        public DbSet<VehiculosMasUsados> vehiculosMasUsados { get; set; }
+        [NotMapped]
+        public DbSet<TotalGeneradoCadaMes> TotalGenerados { get; set; }
+
 
 
 

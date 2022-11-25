@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -38,11 +39,12 @@ namespace AppParqueadero.infraestructura.API.Middleware
                 case ValidarExceptions e:
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     detalle.StatusCode = (int)HttpStatusCode.BadRequest;
+                    detalle.Title = "Datos no validos";
                     detalle.Message = e.Message;
                     break;
+                case ValidatorDTO e:
                 default:
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    detalle.StatusCode = (int)HttpStatusCode.BadRequest;
+                    context.Response.StatusCode = (int)HttpStatusCode.Accepted;
                     break;
             }
             return context.Response.WriteAsync(JsonConvert.SerializeObject(detalle));
@@ -53,6 +55,7 @@ namespace AppParqueadero.infraestructura.API.Middleware
     public class DetalleError {
 
         public int StatusCode { get; set; }
+        public string Title { get; set; }
         public string Message { get; set; }
         public string  StackTrace { get; set; }
     }

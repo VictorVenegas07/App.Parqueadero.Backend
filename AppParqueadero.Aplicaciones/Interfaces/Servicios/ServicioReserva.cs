@@ -78,23 +78,11 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             var puesto = repositoriopuesto.Consultar(x => x.PuestoId == reserva.PuestoId && x.Disponibilidad == "Disponible").FirstOrDefault();
             return puesto is null;
         }
-        public void AnularReserva(Reserva entidad)
+        public void AnularReserva(Guid entidad)
         {
-              var reserva = repositorioReserva.SeleccionarPorId(entidad.ReservaId);
+              var reserva = repositorioReserva.SeleccionarPorId(entidad);
 
-                if (reserva != null && reserva.Estado != "En uso" && reserva.Estado != "Cancelada")
-                {
-                    var puesto = repositoriopuesto.SeleccionarPorId(entidad.PuestoId);
-                    puesto.Disponibilidad = "Disponible";
-                    reserva.Estado = "Cancelada";
-                    repositorioReserva.Editar(reserva, entidad.ReservaId);
-                    repositoriopuesto.Editar(puesto, entidad.PuestoId);
-                    repositorioReserva.GuardarTodosLosCambios();
-                }
-                else
-                {
-                    throw new ValidarExceptions("No es posible cancelar la reserva");
-                }
+               
         }
 
         public void Editar(Reserva entidad, Guid id)
@@ -175,6 +163,16 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             var reserva = repositorioReserva.Consultar(x => x.ReservaId == guid && x.Estado == "Pendiente").FirstOrDefault();
             if (reserva is null)
                 throw new ValidarExceptions("La reserva no es correcta");
+        }
+
+        public IEnumerable<Reserva> BuscarReservaCliente(string identificacion)
+        {
+            var response = repositorioReserva.Consultar(x => x.cliente.Identificacion == identificacion && x.Estado == "Pendiente");
+            if (response.Count.Equals(0))
+                throw new ValidarExceptions($"El cliente con identificacion {identificacion} no tiene reservas pendiente");
+
+            return response;
+
         }
     }
 }

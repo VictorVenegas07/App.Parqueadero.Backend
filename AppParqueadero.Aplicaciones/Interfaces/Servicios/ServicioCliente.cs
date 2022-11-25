@@ -71,5 +71,13 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
 
             return res;
         }
+        public Cliente BuscarIdentificacion(string identificacion)
+        {
+            var response = repositorioCliente.Consultar(x => x.Identificacion == identificacion).FirstOrDefault();
+            if (response is null)
+                throw new ValidatorDTO("No existe");
+
+            return response;
+        }
     }
 }

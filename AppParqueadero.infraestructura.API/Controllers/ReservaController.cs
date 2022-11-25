@@ -50,6 +50,7 @@ namespace AppParqueadero.infraestructura.API.Controllers
         }
 
         // GET api/<ReservaController>/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Reserva>> GetId(Guid id)
         {
@@ -57,6 +58,7 @@ namespace AppParqueadero.infraestructura.API.Controllers
         }
 
         // POST api/<ReservaController>
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<Reserva>> Post(ReservaModel value)
         {
@@ -65,9 +67,12 @@ namespace AppParqueadero.infraestructura.API.Controllers
         }
 
         // PUT api/<ReservaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [AllowAnonymous]
+        [HttpGet("/Cliente/{id}")]
+        public ActionResult<ViewReserva> GetReserva(string id)
         {
+            var resp = servicio.BuscarReservaCliente(id);
+            return Ok(resp.Select(x=> mapper.Map<ViewReserva>(x)));
         }
 
         // DELETE api/<ReservaController>/5
