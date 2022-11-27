@@ -62,7 +62,9 @@ namespace AppParqueadero.infraestructura.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Reserva>> Post(ReservaModel value)
         {
-        
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
             return Ok(servicio.Agregar(mapper.Map<Reserva>(value)));
         }
 
@@ -81,6 +83,21 @@ namespace AppParqueadero.infraestructura.API.Controllers
         {
            var response = await servicio.GenerarTicket(mapper.Map<Ticket>(reserva), reserva.ReservaId);
             return Ok(mapper.Map<ViewTicketd>(response));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/Cancelar/{id}")]
+        public ActionResult<ViewReserva> GetCancelarReserva(string id)
+        {
+            var resp = servicio.AnularReserva(Guid.Parse(id));
+            return Ok(mapper.Map<ViewReserva>(resp));
+        }
+
+        [HttpGet("[action]")]
+        public ActionResult<IEnumerable<ViewReserva>> GetFiltrarReserva(DateTime? fecha, string identificacion, string? placa, string? estado)
+        {
+            var response = servicio.BuscarVarios(fecha, identificacion, placa, estado);
+            return Ok(response.Select(x => mapper.Map<ViewReserva>(x)));
         }
     }
 }

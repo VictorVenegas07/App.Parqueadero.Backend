@@ -1,6 +1,7 @@
 ﻿using AppParquadero.Infraestructura.Datos.Contexto;
 using AppParqueadero.Dominio.Entidades;
 using AppParqueadero.Dominio.Interfaces.Repositorios;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,10 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
 
         public Empleado SeleccionarPorId(Guid entidad)
         {
-            var respuesta = contexto.Empleados.Find(entidad);
+            var respuesta = contexto.Empleados
+                .Include(x=> x.Usuario)
+                .Where(x=> x.EmpleadoId==entidad)
+                .FirstOrDefault();
             return respuesta;
         }
     }

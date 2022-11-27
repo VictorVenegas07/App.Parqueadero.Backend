@@ -24,10 +24,11 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             return entidad;
         }
 
-        public void AnularReserva(Reserva entidad)
+        public Reserva AnularReserva(Reserva entidad)
         {
             contexto.reservas.Update(entidad);
             contexto.Entry(entidad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            return entidad;
         }
 
         public List<Reserva> Consultar(Func<Reserva, bool> expression = null)

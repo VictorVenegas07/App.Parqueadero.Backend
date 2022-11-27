@@ -47,6 +47,9 @@ namespace AppParqueadero.infraestructura.API.Controllers
         [HttpPost]
         public ActionResult<Vehiculo> Post(VehiculoInput vehiculo)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
             return Ok(servicio.Agregar(Mapper.Map<Vehiculo>(vehiculo)));
         }
 

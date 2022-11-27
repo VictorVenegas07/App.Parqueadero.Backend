@@ -11,11 +11,13 @@ namespace AppParqueadero.Dominio.Entidades
     {
   
         public Guid EmpleadoId { get; set; }
+        [JsonIgnore]
         public List<Horario> Horarios  { get; set; }
         public string Email { get; set; }
         [JsonIgnore]
         public Usuario Usuario { get; set; }
         [JsonIgnore]
+
         public List<Ticket> Tickets { get; set; }
         public void Modificar(string tipoDocumento, string nombre, string telefono, string email)
         {

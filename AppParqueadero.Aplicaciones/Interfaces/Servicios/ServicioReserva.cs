@@ -15,7 +15,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
     public class ServicioReserva : IServicioReserva<Reserva, Guid>
     {
         IRepositorioReserva<Reserva, Guid> repositorioReserva;
-        IRepositorioBase< Vehiculo, Guid> repositoriovohiculo;
+        IRepositorioBase<Vehiculo, Guid> repositoriovohiculo;
         IRepositorioBase<Cliente, Guid> repositoriocliente;
         IRepositorioBase<Puesto, Guid> repositoriopuesto;
         IRepositorioBase<Tarifa, Guid> repositorioTarifa;
@@ -39,11 +39,10 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
                 throw new ValidarExceptions("La reserva es requerida");
             if (!ValidaFecha(reserva.FechaHora))
                 throw new ValidarExceptions("La fecha es requerida");
-            if (ValidarPuesto(reserva))
-                throw new ValidarExceptions("El puesto es requerida preferiblemente disponible");
-
+            ValidarPuesto(reserva);
             ValidarReserva(reserva);
             reserva.Modificar("Pendiente");
+            ActualizarPuesto(reserva.Puesto, reserva.PuestoId, "Ocupado");
             if (ValidarVehiculoReserva(reserva))
                 respuesta = repositorioReserva.Agregar(reserva);
             else
@@ -58,31 +57,40 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             var clienteRespuesta = repositoriocliente.Consultar(x => x.Identificacion == reserva.cliente.Identificacion).FirstOrDefault();
             var respuesta = repositoriovohiculo.Consultar(x => x.Placa == reserva.Vehiculo.Placa).FirstOrDefault();
             if (clienteRespuesta != null)
-                 reserva.cliente = clienteRespuesta;
+                reserva.cliente = clienteRespuesta;
 
             if (respuesta != null)
                 reserva.Vehiculo = respuesta;
             else
                 reserva.Vehiculo.cliente = reserva.cliente;
-         
+
         }
 
-            private bool ValidarVehiculoReserva(Reserva reserva)
+        private bool ValidarVehiculoReserva(Reserva reserva)
         {
             var respuestaVehiculo = repositorioReserva.Consultar(x => x.Vehiculo.Placa == reserva.Vehiculo.Placa && x.Estado == "Pendiente").FirstOrDefault();
             return respuestaVehiculo is null;
         }
 
-        private Boolean ValidarPuesto(Reserva reserva)
+        private void ValidarPuesto(Reserva reserva)
         {
             var puesto = repositoriopuesto.Consultar(x => x.PuestoId == reserva.PuestoId && x.Disponibilidad == "Disponible").FirstOrDefault();
-            return puesto is null;
-        }
-        public void AnularReserva(Guid entidad)
-        {
-              var reserva = repositorioReserva.SeleccionarPorId(entidad);
+            if (puesto is null)
+                throw new ValidarExceptions("El puesto es requerida preferiblemente disponible");
 
-               
+            reserva.Puesto = puesto;
+        }
+        public Reserva AnularReserva(Guid entidad)
+        {
+            var reserva = repositorioReserva.SeleccionarPorId(entidad);
+            if (reserva is null)
+                throw new ValidarExceptions($"reserva no es valida");
+
+            reserva.Modificar("Cancelada");
+            ActualizarPuesto(reserva.Puesto, reserva.PuestoId, "Disponible");
+            repositorioReserva.AnularReserva(reserva);
+            repositorioReserva.GuardarTodosLosCambios();
+            return reserva;
         }
 
         public void Editar(Reserva entidad, Guid id)
@@ -126,7 +134,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             }
             else
                 throw new ValidarExceptions("La reserva no es correcta");
-              
+
         }
         private void AsignarTarifa(Ticket ticket)
         {
@@ -174,5 +182,34 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             return response;
 
         }
+        private void ActualizarPuesto(Puesto puesto, Guid puestoid, string estado)
+        {
+            puesto.Modificar(estado);
+            repositoriopuesto.Editar(puesto, puestoid);
+        }
+
+        public List<Reserva> BuscarVarios(DateTime? fecha, string identificacion, string? placa, string? estado)
+        {
+            List<Reserva> consulta;
+            if (identificacion is null)
+                consulta = repositorioReserva.Listar();
+            else
+                consulta = repositorioReserva.Consultar(x => x.cliente.Identificacion == identificacion);
+
+
+
+            if (placa is not null)
+                consulta = consulta.Where(x => x.Vehiculo.Placa.Contains(placa)).ToList();
+
+            if (estado is not null)
+                consulta = consulta.Where(x => x.Estado == estado).ToList();
+
+            if (fecha is not null)
+                consulta = consulta.Where(x => x.FechaHora >= fecha).ToList();
+
+            return consulta;
+
+        }
     }
+
 }

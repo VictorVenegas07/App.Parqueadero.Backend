@@ -33,5 +33,27 @@ namespace AppParqueadero.Aplicaciones.Interfaces.Servicios
             else
                 throw new ValidarExceptions($"El usuario {username} no existe");
         }
+
+        public async Task<Usuario> GetUsuarioAsync(Guid empleadoId)
+        {
+            var resp = await Repositorio.GetUsuarioAsync(empleadoId);
+            if (resp is null)
+                throw new ValidarExceptions("El empleado no esta disponible");
+
+            return  resp;
+        }
+
+        public List<Usuario> Listar()
+        {
+            var resp = Repositorio.Listar();
+            if (resp is null)
+                throw new ValidarExceptions("No hay usuarios registrados");
+            return resp;
+        }
+
+        public Usuario SeleccionarPorId(Guid entidad)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace AppParqueadero.Dominio.Interfaces.Repositorios
 {
-    public interface IAuthRepositorio
+    public interface IAuthRepositorio:IListar<Usuario, Guid>
     {
         Task<Usuario> Login(string username, string password);
         Task<bool> ExisteUsuario(string username);
+        Task<Usuario> GetUsuarioAsync(Guid empleadoId);
+
 
     }
 }

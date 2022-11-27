@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -32,19 +34,28 @@ namespace AppParqueadero.infraestructura.API.Middleware
         private static Task HandleGlobalExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            var detalle = new DetalleError() { Message = exception.Message, StackTrace = exception.StackTrace};
-            var bb = exception is ValidarExceptions;
+            var detalle = new DetalleError() { type = exception.GetType(), traceId = Guid.NewGuid() };
+            dynamic clase = new ExpandoObject();
+            Errors errors = new Errors();
+        var bb = exception is ValidarExceptions;
             switch (exception)
             {
                 case ValidarExceptions e:
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    detalle.StatusCode = (int)HttpStatusCode.BadRequest;
-                    detalle.Title = "Datos no validos";
-                    detalle.Message = e.Message;
+                    detalle.status = (int)HttpStatusCode.BadRequest;
+                    detalle.title = "Datos no validos";
+                    errors.DatosNovalidos.Add(e.Message);
+                    detalle.errors  = errors;
                     break;
                 case ValidatorDTO e:
-                default:
                     context.Response.StatusCode = (int)HttpStatusCode.Accepted;
+                    break;
+                default:
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    detalle.status = (int)HttpStatusCode.BadRequest;
+                    detalle.title = "Error en el servidor";
+                    errors.DatosNovalidos.Add(exception.Message);
+                    detalle.errors = errors;
                     break;
             }
             return context.Response.WriteAsync(JsonConvert.SerializeObject(detalle));
@@ -53,10 +64,19 @@ namespace AppParqueadero.infraestructura.API.Middleware
     }
 
     public class DetalleError {
+        public Type type { get; set; }
+        public int status { get; set; }
+        public string title { get; set; }
+        public Guid traceId { get; set; }
+        public Errors errors { get; set; }
+    }
 
-        public int StatusCode { get; set; }
-        public string Title { get; set; }
-        public string Message { get; set; }
-        public string  StackTrace { get; set; }
+    public class Errors
+    {
+        public List<string> DatosNovalidos { get; set; }
+        public Errors()
+        {
+            DatosNovalidos = new List<string>();
+        }
     }
 }

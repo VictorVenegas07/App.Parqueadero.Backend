@@ -31,6 +31,18 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
             return entidad;
         }
 
+        public List<Ticket> BuscarVariosAsync(Func<Ticket, bool> expression = null)
+        {
+
+            return  contexto.Tickets
+                  .Include(x => x.Tarifa)
+                    .Include(x => x.Vehiculo)
+                    .Include(x => x.Cliente)
+                    .Include(x => x.Empleado)
+                    .Include(x => x.Puesto)
+                .Where(expression).OrderBy(x=> x.Cliente.Identificacion).ToList();
+        }
+
         public List<Ticket> Consultar(Func<Ticket, bool> expression = null)
         {
             if (expression != null)
@@ -39,6 +51,7 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
                     .Include(x=> x.Vehiculo)
                     .Include(x=> x.Cliente)
                     .Include(x => x.Empleado)
+                    .Include(x=> x.Puesto)
                     .Where(expression).ToList();
             return contexto.Tickets.ToList();
         }
@@ -72,6 +85,7 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
                 .Include(x => x.Cliente)
                 .Include(x=> x.Puesto)
                 .Include(x=> x.Empleado)
+                .OrderBy(x=> x.Estado == "Entrada")
                 .ToList();
         }
 

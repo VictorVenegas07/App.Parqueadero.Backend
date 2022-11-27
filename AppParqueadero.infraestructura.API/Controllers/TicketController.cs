@@ -70,6 +70,9 @@ namespace AppParqueadero.infraestructura.API.Controllers
         [HttpPost]
         public ActionResult<Ticket> Post(TicketModels  ticket)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
             return Ok(servicio.Agregar(mapper.Map<Ticket>(ticket)));
         }
 
@@ -79,6 +82,20 @@ namespace AppParqueadero.infraestructura.API.Controllers
         {
             servicio.Eliminar(Guid.Parse(id));
             return Ok("Se a eliminado correctamente");
+        }
+
+        [HttpGet("[action]")]
+        public ActionResult<IEnumerable<ViewTicketd>> GetFiltrarTickets(DateTime? fecha,string identificacion, string? placa, string? estado)
+        {
+            var response = servicio.BuscarVarios(fecha,identificacion, placa, estado );
+            return Ok(response.Select(x => mapper.Map<ViewTicketd>(x)));
+        }
+
+        [HttpGet("[action]")]
+        public ActionResult<IEnumerable<ViewTicketd>> ObtenerTicketEmpleado(string idEmpleado)
+        {
+            var response = servicio.TicketsEmpleado(Guid.Parse(idEmpleado));
+            return Ok(response.Select(x => mapper.Map<ViewTicketd>(x)));
         }
     }
 }

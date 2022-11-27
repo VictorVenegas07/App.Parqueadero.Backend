@@ -11,5 +11,7 @@ namespace AppParqueadero.Aplicaciones.Interfaces
     {
         TEntidad ActualizarEstado(TEntidadId id);
         void Eliminar(TEntidadId id);
+
+        List<TEntidad> BuscarVariosAsync(string identificacion, string placa, string estado, DateTime fecha);
     }
 }

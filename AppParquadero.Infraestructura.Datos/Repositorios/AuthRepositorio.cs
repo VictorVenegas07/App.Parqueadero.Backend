@@ -26,5 +26,24 @@ namespace AppParqueadero.Infraestructura.Datos.Repositorios
         {
             return await contexto.Usuarios.Include(x=> x.Empleado).FirstOrDefaultAsync(x => x.NombreUsuario == username && x.Contraseña == password);
         }
+        public async Task<Usuario> GetUsuarioAsync(Guid empleadoId)
+        {
+            return await contexto.Usuarios
+                .Include(x => x.Empleado)
+                .Where(x => x.UsuarioId == empleadoId)
+                .FirstOrDefaultAsync();
+        }
+
+        public List<Usuario> Listar()
+        {
+            return contexto.Usuarios
+                .Include(x=> x.Empleado)
+                .ToList();
+        }
+
+        public Usuario SeleccionarPorId(Guid entidad)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

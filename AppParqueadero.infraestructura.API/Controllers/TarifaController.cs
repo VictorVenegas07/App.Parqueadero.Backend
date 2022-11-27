@@ -48,6 +48,9 @@ namespace AppParqueadero.infraestructura.API.Controllers
         [HttpPost]
         public ActionResult<Tarifa> Post(TarifaModels value)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
             return Ok(service.Agregar(mapper.Map<Tarifa>(value)));
         }
 
