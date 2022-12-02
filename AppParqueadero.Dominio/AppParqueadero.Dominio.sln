@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppParqueadero.Aplicaciones
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppParqueadero.Infraestructura.Datos", "..\AppParquadero.Infraestructura.Datos\AppParqueadero.Infraestructura.Datos.csproj", "{C3B577EC-47D0-4C57-9295-66A406D17E37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppParqueadero.infraestructura.API", "..\AppParqueadero.infraestructura.API\AppParqueadero.infraestructura.API.csproj", "{B4F86AC9-575D-428C-B9B0-06A7627DF9EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppParqueadero.infraestructura.API", "..\AppParqueadero.infraestructura.API\AppParqueadero.infraestructura.API.csproj", "{B4F86AC9-575D-428C-B9B0-06A7627DF9EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppParqueaderoTest", "..\AppParqueaderoTest\AppParqueaderoTest.csproj", "{04A6EEE2-500A-4B90-A3F1-1DD2E14ED389}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B4F86AC9-575D-428C-B9B0-06A7627DF9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F86AC9-575D-428C-B9B0-06A7627DF9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4F86AC9-575D-428C-B9B0-06A7627DF9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04A6EEE2-500A-4B90-A3F1-1DD2E14ED389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A6EEE2-500A-4B90-A3F1-1DD2E14ED389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A6EEE2-500A-4B90-A3F1-1DD2E14ED389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A6EEE2-500A-4B90-A3F1-1DD2E14ED389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

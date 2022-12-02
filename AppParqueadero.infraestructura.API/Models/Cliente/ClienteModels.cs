@@ -11,7 +11,7 @@ namespace AppParqueadero.infraestructura.API.Models.Cliente
         public string Identificacion { get; set; }
         [Required(ErrorMessage = "El tipo de documento es requeido"), TipoDocumentoValidacion(ErrorMessage ="Tipo documento no es valido")]
         public string TipoDocumuento { get; set; }
-        [Required(ErrorMessage = "El ombre es requerido"), MaxLength(15, ErrorMessage = "Nombre debe tener 15 caracteres o 5 por lo menos"), MinLength(5, ErrorMessage = "Nombre debe tener 15 caracteres o 5 por lo menos")]
+        [Required(ErrorMessage = "El nombre es requerido"), MaxLength(15, ErrorMessage = "Nombre debe tener 15 caracteres o 5 por lo menos"), MinLength(5, ErrorMessage = "Nombre debe tener 15 caracteres o 5 por lo menos")]
         public string Nombre { get; set; }
         [Required(ErrorMessage = "El telefono es requerido"), MaxLength(10, ErrorMessage = "Telefono debe tener 10 caracteres o 8 por lo menos"), MinLength(8, ErrorMessage = "Telefono debe tener 10 caracteres o 8 por lo menos")]
         public string Telefono { get; set; }
